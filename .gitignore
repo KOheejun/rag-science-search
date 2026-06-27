@@ -1,0 +1,33 @@
+# 모델 가중치 (HuggingFace에 업로드)
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.bin
+
+# 대회 데이터
+data/*.jsonl
+data/*.parquet
+data/*.csv
+
+# 벡터 DB 인덱스
+qdrant_storage/
+*.index
+
+# Python 캐시
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# 가상환경
+.venv/
+venv/
+
+# 환경 변수
+.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
+__MACOSX/
