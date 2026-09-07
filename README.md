@@ -23,7 +23,7 @@ Ground Truth 없이 7일간 16가지 전략을 비교하기 위해 자체 검증
 
 ### Reranker 파인튜닝
 - 모델: Qwen3-8B (LoRA)
-- SFT 데이터: 과학 도메인 triplet 3,000+ 쌍 (`data/reranker_triplets_sample.jsonl`)
+- SFT 데이터: RAGAS Faithfulness ≥ 0.7 필터링 후 선별한 과학 도메인 triplet 1,747쌍 (대회 제공 문서 기반이라 원본 데이터는 이 리포에 포함하지 않았습니다)
 - 실패 기록: negatives 오탐 226개 → 학습 데이터 필터링 후 개선
 
 ## 파일 구성
@@ -31,13 +31,17 @@ Ground Truth 없이 7일간 16가지 전략을 비교하기 위해 자체 검증
 ```
 rag-science-search/
 ├── src/
-│   └── rag_pipeline.py     # 메인 RAG 파이프라인 (Dense+Sparse+Reranker)
+│   └── rag_pipeline.py     # 제출 결과 비교/검증 유틸리티 (SHA256 해시 비교, Top-K 변화량 추적)
+│                            # ⚠️ Dense/Sparse/Reranker 파이프라인 본체는 로컬 실험 노트북에만 있고
+│                            #    이 리포에는 아직 옮기지 못했습니다.
 ├── notebooks/
 │   └── experiments.ipynb   # 전략별 실험 기록
 └── data/
     ├── science_synonyms.txt # 과학 분야 동의어 사전
     └── user_dict.txt        # 커스텀 토크나이저 사전
 ```
+
+> **26-09-07 정정**: 이전 버전에서는 `src/rag_pipeline.py`를 "메인 RAG 파이프라인(Dense+Sparse+Reranker)"이라고 소개했지만, 실제 파일은 제출 CSV/JSONL을 비교하는 검증 유틸리티입니다. 아래 "핵심 접근"에 설명한 BM25+Dense+RRF+Reranker 파이프라인은 실제로 실험했지만(로컬 노트북 기준), 코드 자체는 아직 이 리포로 옮기지 못했습니다.
 
 ## 기술 스택
 
